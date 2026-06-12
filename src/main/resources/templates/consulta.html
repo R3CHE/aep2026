@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da Solicitação</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 card p-4 shadow">
+                <h2 class="text-center mb-4">📄 Detalhes da Solicitação</h2>
+                <div class="row mb-4">
+                    <div class="col-sm-6">
+                        <p><strong>Protocolo:</strong> <span th:text="${solicitacao.protocolo}"></span></p>
+                        <p><strong>Categoria:</strong> <span th:text="${solicitacao.categoria}"></span></p>
+                        <p><strong>Status Atual:</strong> <span class="badge bg-primary" th:text="${solicitacao.status}"></span></p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p><strong>Localização:</strong> <span th:text="${solicitacao.localizacao}"></span></p>
+                        <p><strong>Data:</strong> <span th:text="${#temporals.format(solicitacao.dataCriacao, 'dd/MM/yyyy HH:mm')}"></span></p>
+                        <p><strong>Anônimo:</strong> <span th:text="${solicitacao.anonimo ? 'Sim' : 'Não'}"></span></p>
+                    </div>
+                </div>
+                <hr>
+                <div class="mb-3">
+                    <h5>Descrição do Problema:</h5>
+                    <p class="p-3 bg-white border rounded" th:text="${solicitacao.descricao}"></p>
+                </div>
+                <h5 class="mt-4">⏳ Histórico de Atualizações:</h5>
+                <div class="list-group">
+                    <div th:each="update : ${solicitacao.historico}" class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <strong th:text="${update.status}"></strong>
+                            <small th:text="${#temporals.format(update.dataAlteracao, 'dd/MM/yyyy HH:mm')}"></small>
+                        </div>
+                        <p class="mb-1" th:text="${update.comentario}"></p>
+                    </div>
+                    <div th:if="${#lists.isEmpty(solicitacao.historico)}" class="text-muted p-3">
+                        Nenhuma atualização registrada até o momento.
+                    </div>
+                </div>
+                <div class="text-center mt-4">
+                    <a href="/" class="btn btn-secondary">Voltar ao Menu Principal</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
